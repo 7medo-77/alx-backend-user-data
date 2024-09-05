@@ -14,15 +14,14 @@ class Auth:
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ method which returns false
         """
-        excluded_paths_string_array = []
+        excluded_paths_string_array = [
+            re.findall(r'(\w+)+/?', path) for path in excluded_paths
+        ]
         if not path or not excluded_paths or len(excluded_paths) == 0:
             return True
         else:
             path_strings = re.findall(r'(\w+)+/?', path)
-            for path in excluded_paths:
-                excluded_paths_string_array.append(
-                    re.findall(r'(\w+)+/?', path)
-                )
+
             if path_strings in excluded_paths_string_array:
                 return False
             else:
