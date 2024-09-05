@@ -18,6 +18,7 @@ auth = None
 if getenv('AUTH_TYPE') == 'auth':
     auth = Auth()
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
@@ -49,7 +50,7 @@ def pre_request():
         '/api/v1/forbidden/'
     ]
     if not auth or\
-        not auth.require_auth(request.path, elevated_paths):
+            not auth.require_auth(request.path, elevated_paths):
         pass
     elif not auth.authorization_header(request):
         abort(401)

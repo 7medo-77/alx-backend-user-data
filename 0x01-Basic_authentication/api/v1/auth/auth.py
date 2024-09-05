@@ -31,7 +31,8 @@ class Auth:
     def authorization_header(self, request=None) -> str:
         """ method which returns None
         """
-        if not request or request.headers.get('Authorization') == None:
+        if not request or\
+                request.headers.get('Authorization') is None:
             return None
         else:
             return request.headers.get('Authorization')
