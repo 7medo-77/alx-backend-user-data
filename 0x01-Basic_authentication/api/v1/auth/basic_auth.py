@@ -89,4 +89,4 @@ class BasicAuth(Auth):
             # if user_list:
                 return None
             else:
-                return user_list
+                return user_list[0]
