@@ -85,7 +85,6 @@ class BasicAuth(Auth):
             # user_list = User.search({'email': user_email})
             user_list = User.search({'email': user_email})
             is_valid = user_list[0].is_valid_password(user_pwd) if len(user_list) != 0 else False
-            print(is_valid)
             if len(user_list) == 0 or\
                     not is_valid:
                 return None
