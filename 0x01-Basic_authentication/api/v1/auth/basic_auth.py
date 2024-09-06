@@ -2,11 +2,12 @@
 """
 Module which defines a basic auth class
 """
+from api.v1.auth.auth import Auth
 from flask import request
-from typing import List, TypeVar
+from typing import List, TypeVar, Tuple
 import base64
 import binascii
-from api.v1.auth.auth import Auth
+import re
 
 
 class BasicAuth(Auth):
@@ -44,3 +45,24 @@ class BasicAuth(Auth):
                 return base64.b64decode(binary_auth_header).decode('utf-8')
             except binascii.Error:
                 return None
+
+    def extract_user_credentials(
+            self,
+            decoded_base64_authorization_header: str
+        ) -> Tuple[str]:
+        """
+        Method to retrieve username and password
+        from encoded auth header
+        """
+        if decoded_base64_authorization_header and isinstance(decoded_base64_authorization_header, str):
+            semi_colon = re.findall(r'\:', decoded_base64_authorization_header)
+        else:
+            semi_colon = []
+
+        if len(semi_colon) == 0 or\
+                not isinstance(decoded_base64_authorization_header, str) or\
+                not decoded_base64_authorization_header:
+            return (None, None)
+        else:
+            auth_tuple = tuple(decoded_base64_authorization_header.split(':'))
+            return auth_tuple
