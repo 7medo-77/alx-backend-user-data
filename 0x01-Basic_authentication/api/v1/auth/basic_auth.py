@@ -3,6 +3,7 @@
 Module which defines a basic auth class
 """
 from api.v1.auth.auth import Auth
+from models.user import User
 from flask import request
 from typing import List, TypeVar, Tuple
 import base64
@@ -67,3 +68,25 @@ class BasicAuth(Auth):
         else:
             auth_tuple = tuple(decoded_base64_authorization_header.split(':'))
             return auth_tuple
+
+    def user_object_from_credentials(
+            self,
+            user_email: str,
+            user_pwd: str
+            ) -> TypeVar('User'):
+        """
+        Method to retreive User instance from
+        username and password paarameters
+        """
+        if (not user_email or isinstance(user_email, str)) or\
+            (not user_pwd or isinstance(user_pwd, str)):
+            return None
+        else:
+            # user_list = User.search({'email': user_email})
+            user_list = User.search({'email': user_email})
+            print(user_list)
+            if len(user_list) == 0:
+            # if user_list:
+                return None
+            else:
+                return user_list
