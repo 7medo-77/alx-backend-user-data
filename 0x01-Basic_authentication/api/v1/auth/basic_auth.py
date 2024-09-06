@@ -49,12 +49,13 @@ class BasicAuth(Auth):
     def extract_user_credentials(
             self,
             decoded_base64_authorization_header: str
-        ) -> Tuple[str]:
+            ) -> Tuple[str]:
         """
         Method to retrieve username and password
         from encoded auth header
         """
-        if decoded_base64_authorization_header and isinstance(decoded_base64_authorization_header, str):
+        if decoded_base64_authorization_header and\
+                isinstance(decoded_base64_authorization_header, str):
             semi_colon = re.findall(r'\:', decoded_base64_authorization_header)
         else:
             semi_colon = []
