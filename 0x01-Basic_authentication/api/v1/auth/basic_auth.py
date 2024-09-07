@@ -100,15 +100,16 @@ class BasicAuth(Auth):
         #         (not user_pwd or isinstance(user_pwd, str)):
         #     return None
         # else:
-            # user_list = User.search({'email': user_email})
-            # user_res = user_list[0] if len(user_list) != 0 else None
-            # is_valid = user_res.is_valid_password(user_pwd)\
-            #     if user_list else False
-            # if len(user_list) == 0 or\
-            #         not is_valid:
-            #     return None
-            # else:
-            #     return user_res
+        #
+        #     user_list = User.search({'email': user_email})
+        #     user_res = user_list[0] if len(user_list) != 0 else None
+        #     is_valid = user_res.is_valid_password(user_pwd)\
+        #         if user_list else False
+        #     if len(user_list) == 0 or\
+        #             not is_valid:
+        #         return None
+        #     else:
+        #         return user_res
 
     def current_user(self, request=None) -> TypeVar('User'):
         """
