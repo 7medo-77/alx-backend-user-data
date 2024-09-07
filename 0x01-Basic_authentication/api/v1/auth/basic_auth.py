@@ -83,15 +83,24 @@ class BasicAuth(Auth):
                 (not user_pwd or isinstance(user_pwd, str)):
             return None
         else:
-            user_list = User.search({'email': user_email})
-            user_res = user_list[0] if len(user_list) != 0 else None
-            is_valid = user_res.is_valid_password(user_pwd)\
-                if user_list else False
-            if len(user_list) == 0 or\
-                    not is_valid:
+            try:
+                found_users = User.search({'email': user_email})
+            except Exception:
                 return None
-            else:
-                return user_res
+
+            for user in found_users:
+                if user.is_valid_password(user_pwd):
+                    return user
+
+            # user_list = User.search({'email': user_email})
+            # user_res = user_list[0] if len(user_list) != 0 else None
+            # is_valid = user_res.is_valid_password(user_pwd)\
+            #     if user_list else False
+            # if len(user_list) == 0 or\
+            #         not is_valid:
+            #     return None
+            # else:
+            #     return user_res
 
     def current_user(self, request=None) -> TypeVar('User'):
         """
@@ -100,6 +109,13 @@ class BasicAuth(Auth):
         """
         header = self.authorization_header(request)
         header_spliced = self.extract_base64_authorization_header(header)
-        header_decoded = self.decode_base64_authorization_header(header_spliced)
-        (user_email, user_password) = self.extract_user_credentials(header_decoded)
-        authenticated_user = self.user_object_from_credentials(user_email, user_password)
+        header_decoded = self.decode_base64_authorization_header(
+                header_spliced
+            )
+        (user_email, user_password) = self.extract_user_credentials(
+                header_decoded
+            )
+        authenticated_user = self.user_object_from_credentials(
+                user_email,
+                user_password
+            )
