@@ -79,19 +79,27 @@ class BasicAuth(Auth):
         Method to retreive User instance from
         username and password paarameters
         """
-        if (not user_email or isinstance(user_email, str)) or\
-                (not user_pwd or isinstance(user_pwd, str)):
+        if user_email is None or not isinstance(user_email, str):
             return None
-        else:
-            try:
-                found_users = User.search({'email': user_email})
-            except Exception:
-                return None
 
-            for user in found_users:
-                if user.is_valid_password(user_pwd):
-                    return user
+        if user_pwd is None or not isinstance(user_pwd, str):
+            return None
 
+        try:
+            found_users = User.search({'email': user_email})
+        except Exception:
+            return None
+
+        for user in found_users:
+            if user.is_valid_password(user_pwd):
+                return user
+
+        return None
+
+        # if (not user_email or isinstance(user_email, str)) or\
+        #         (not user_pwd or isinstance(user_pwd, str)):
+        #     return None
+        # else:
             # user_list = User.search({'email': user_email})
             # user_res = user_list[0] if len(user_list) != 0 else None
             # is_valid = user_res.is_valid_password(user_pwd)\
