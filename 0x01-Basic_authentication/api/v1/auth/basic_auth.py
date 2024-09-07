@@ -67,7 +67,10 @@ class BasicAuth(Auth):
                 not decoded_base64_authorization_header:
             return (None, None)
         else:
-            auth_tuple = tuple(decoded_base64_authorization_header.split(':'))
+            auth_tuple = tuple(decoded_base64_authorization_header.split(':'))\
+                if len(semi_colon) < 1\
+                else\
+                tuple(decoded_base64_authorization_header.split(':')[0:2])
             return auth_tuple
 
     def user_object_from_credentials(

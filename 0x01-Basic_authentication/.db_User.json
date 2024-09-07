@@ -1,1 +1,20 @@
-{"b0e22847-996f-4a89-b781-94aa08ceaaf8": {"id": "b0e22847-996f-4a89-b781-94aa08ceaaf8", "created_at": "2024-09-07T08:38:11", "updated_at": "2024-09-07T08:38:11", "email": "bob@hbtn.io", "_password": "a5c904771b8617de27d3511d1f538094e26c120da663363b3f760f7b894f9d69", "first_name": null, "last_name": null}}
+{
+    "bf1d9670-506d-439e-bd9f-16970034acc0": {
+        "id": "bf1d9670-506d-439e-bd9f-16970034acc0",
+        "created_at": "2024-09-07T17:37:07",
+        "updated_at": "2024-09-07T17:37:07",
+        "email": "bob@hbtn.io",
+        "_password": "a5c904771b8617de27d3511d1f538094e26c120da663363b3f760f7b894f9d69",
+        "first_name": null,
+        "last_name": null
+    },
+    "8fdf51a3-740e-473c-b524-84cb89754577": {
+        "id": "8fdf51a3-740e-473c-b524-84cb89754577",
+        "created_at": "2024-09-07T17:37:07",
+        "updated_at": "2024-09-07T17:37:07",
+        "email": "holberton_2@gmail.com",
+        "_password": "9fefe9e1475c363ee7a3f28a0667198f0df70891c28935b4ce04d4cdc0e00ed5",
+        "first_name": "SomeName",
+        "last_name": "lastName"
+    }
+}
