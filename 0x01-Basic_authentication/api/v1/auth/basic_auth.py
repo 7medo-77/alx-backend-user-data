@@ -128,3 +128,4 @@ class BasicAuth(Auth):
                 user_email,
                 user_password
             )
+        return authenticated_user if authenticated_user else None
