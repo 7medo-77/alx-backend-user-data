@@ -68,7 +68,7 @@ class BasicAuth(Auth):
             return (None, None)
         else:
             auth_tuple = tuple(decoded_base64_authorization_header.split(':'))\
-                if len(semi_colon) < 1\
+                if len(semi_colon) == 1\
                 else\
                 tuple(decoded_base64_authorization_header.split(':')[0:2])
             return auth_tuple
