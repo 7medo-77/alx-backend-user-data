@@ -15,9 +15,10 @@ class BasicAuth(Auth):
     """ Class BasicAuth
     """
 
-    def extract_base64_authorization_header(self,
-                                            authorization_header: str
-                                            ) -> str:
+    def extract_base64_authorization_header(
+            self,
+            authorization_header: str
+            ) -> str:
         """
         Method to extract base64 authorization header from a request
         """
@@ -26,8 +27,8 @@ class BasicAuth(Auth):
                 authorization_header[:6] != 'Basic ':
             return None
         else:
-            auth_header_binary = authorization_header[6:]
-            return auth_header_binary
+            auth_header = authorization_header[6:]
+            return auth_header
 
     def decode_base64_authorization_header(
             self,
@@ -91,3 +92,14 @@ class BasicAuth(Auth):
                 return None
             else:
                 return user_res
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        Method to retreive User instance from
+        username and password paarameters
+        """
+        header = self.authorization_header(request)
+        header_spliced = self.extract_base64_authorization_header(header)
+        header_decoded = self.decode_base64_authorization_header(header_spliced)
+        (user_email, user_password) = self.extract_user_credentials(header_decoded)
+        authenticated_user = self.user_object_from_credentials(user_email, user_password)

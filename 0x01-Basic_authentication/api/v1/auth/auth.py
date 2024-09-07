@@ -12,7 +12,7 @@ class Auth:
     """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """ method which returns false
+        """ Validates authentication requirement
         """
         excluded_paths_string_array = [
             re.findall(r'(\w+)+/?', path) for path in excluded_paths
@@ -28,7 +28,7 @@ class Auth:
                 return True
 
     def authorization_header(self, request=None) -> str:
-        """ method which returns None
+        """ Returns the Authorization request header
         """
         if not request or\
                 request.headers.get('Authorization') is None:
@@ -37,6 +37,6 @@ class Auth:
             return request.headers.get('Authorization')
 
     def current_user(self, request=None) -> TypeVar('User'):
-        """ method which returns None
+        """ method to be overloaded by child class
         """
         return None
