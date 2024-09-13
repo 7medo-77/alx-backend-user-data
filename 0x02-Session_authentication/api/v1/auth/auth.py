@@ -47,6 +47,7 @@ class Auth:
         """
         if not request:
             return None
-        cookie_name = getenv('SESSION_NAME') if getenv('SESSION_NAME') else None
+        cookie_name = getenv('SESSION_NAME')\
+            if getenv('SESSION_NAME') else None
         return request.cookies.get(cookie_name)
         # request.set_cookie(cookie_name, )
