@@ -51,16 +51,17 @@ def forbidden(error) -> str:
 def pre_request():
     """ Unauthorized handler
     """
-    elevated_paths = [
+    auth_not_required = [
         '/api/v1/status/',
         '/api/v1/unauthorized/',
-        '/api/v1/forbidden/'
+        '/api/v1/forbidden/',
+        '/api/v1/auth_session/login'
     ]
     request.current_user = auth.current_user(request)
     if not auth or\
-            not auth.require_auth(request.path, elevated_paths):
+            not auth.require_auth(request.path, auth_not_required):
         pass
-    elif not auth.authorization_header(request):
+    elif not auth.authorization_header(request) and auth.session_cookie(request):
         abort(401)
     elif not auth.current_user(request):
         abort(403)

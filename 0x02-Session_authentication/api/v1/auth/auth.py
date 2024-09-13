@@ -22,7 +22,6 @@ class Auth:
             return True
         else:
             path_strings = re.findall(r'(\w+)+/?', path)
-
             if path_strings in excluded_paths_string_array:
                 return False
             else:
@@ -50,4 +49,3 @@ class Auth:
         cookie_name = getenv('SESSION_NAME')\
             if getenv('SESSION_NAME') else None
         return request.cookies.get(cookie_name)
-        # request.set_cookie(cookie_name, )
