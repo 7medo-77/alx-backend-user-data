@@ -23,7 +23,6 @@ auth_type = {
     'basic_auth': BasicAuth(),
     'session_auth': SessionAuth(),
 }
-
 auth = auth_type.get(getenv('AUTH_TYPE'))
 
 
