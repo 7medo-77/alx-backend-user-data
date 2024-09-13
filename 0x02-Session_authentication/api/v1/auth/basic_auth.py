@@ -68,12 +68,14 @@ class BasicAuth(Auth):
             return (None, None)
         else:
             if len(semi_colon) > 1:
-                credentials_separated = decoded_base64_authorization_header.split(':')
+                credentials_separated = decoded_base64_authorization_header\
+                                    .split(':')
                 user_name = credentials_separated[0]
                 password = ':'.join(credentials_separated[1:])
                 auth_tuple = (user_name, password)
             else:
-                auth_tuple = tuple(decoded_base64_authorization_header.split(':'))
+                auth_tuple = tuple(decoded_base64_authorization_header
+                                   .split(':'))
             return auth_tuple
 
     def user_object_from_credentials(
