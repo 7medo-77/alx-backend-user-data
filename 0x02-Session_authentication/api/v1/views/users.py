@@ -25,11 +25,12 @@ def view_one_user(user_id: str = None) -> str:
       - User object JSON represented
       - 404 if the User ID doesn't exist
     """
-    user = User.get(user_id)
+    user = User.get(user_id) if user_id != 'me' else None
     if user_id == 'me':
-        if not request.current_user or not user:
+        if not request.current_user:
             abort(404)
         else:
+            user = request.current_user
             return jsonify(user.to_json())
             # return user.to_json()
     else:
