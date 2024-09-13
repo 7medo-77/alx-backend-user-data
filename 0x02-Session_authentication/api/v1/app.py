@@ -62,7 +62,7 @@ def pre_request():
             not auth.require_auth(request.path, auth_not_required):
         pass
     elif not auth.authorization_header(request)\
-            or auth.session_cookie(request):
+            or not auth.session_cookie(request):
         abort(401)
     elif not auth.current_user(request):
         abort(403)
