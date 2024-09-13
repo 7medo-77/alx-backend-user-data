@@ -3,6 +3,7 @@
 Module which defines an auth class
 """
 from flask import request
+from os import getenv
 from typing import List, TypeVar
 import re
 
@@ -40,3 +41,12 @@ class Auth:
         """ method to be overloaded by child class
         """
         return None
+
+    def session_cookie(self, request=None):
+        """ method to be overloaded by child class
+        """
+        if not request:
+            return None
+        cookie_name = getenv('SESSION_NAME') if getenv('SESSION_NAME') else None
+        return request.cookies.get(cookie_name)
+        # request.set_cookie(cookie_name, )
