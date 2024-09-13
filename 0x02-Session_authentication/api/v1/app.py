@@ -26,6 +26,7 @@ auth_type = {
 
 auth = auth_type.get(getenv('AUTH_TYPE'))
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
