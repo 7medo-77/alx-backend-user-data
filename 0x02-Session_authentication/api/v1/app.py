@@ -18,22 +18,13 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 
 
-auth_type = { 
+auth_type = {
     'auth': Auth(),
     'basic_auth': BasicAuth(),
     'session_auth': SessionAuth(),
 }
 
-# if getenv('AUTH_TYPE') in auth_type:
 auth = auth_type.get(getenv('AUTH_TYPE'))
-
-# if getenv('AUTH_TYPE') == 'auth':
-#     auth = Auth()
-# elif getenv('AUTH_TYPE') == 'basic_auth':
-#     auth = BasicAuth()
-# elif getenv('AUTH_TYPE') == 'session_auth':
-#     auth = SessionAuth()
-
 
 @app.errorhandler(404)
 def not_found(error) -> str:
