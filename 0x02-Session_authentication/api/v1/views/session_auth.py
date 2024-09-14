@@ -7,7 +7,7 @@ from os import getenv
 from api.v1.views import app_views
 
 
-@app_views.route('/auth_session/login/', methods=['POST'], strict_slashes=False)
+@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def validate_login() -> str:
     """
     Endpoint for validating User credentials and
