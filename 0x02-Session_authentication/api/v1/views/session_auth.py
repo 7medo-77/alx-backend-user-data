@@ -21,7 +21,9 @@ def validate_login() -> str:
     if not email:
         return jsonify({"error": "email missing"}), 400
 
-    user_instance = User.search({'email': email})[0]
+    user_instance = User.search({'email': email})[0]\
+        if len(User.search({'email': email})) > 0\
+        else None
     if not user_instance:
         return jsonify({"error": "no user found for this email"}), 404
     elif not user_instance.is_valid_password(password):
