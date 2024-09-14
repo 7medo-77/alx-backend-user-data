@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 """ Module of Index views
 """
-from flask import jsonify, abort, request
+from flask import jsonify, request
 from models.user import User
 from os import getenv
 from api.v1.views import app_views
-from api.v1.auth import Auth
 
 
-@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
+@app_views.route('/auth_session/login/', methods=['POST'], strict_slashes=False)
 def validate_login() -> str:
-    """ GET /api/v1/status
-    Return:
-      - the status of the API
+    """
+    Endpoint for validating User credentials and
+    creating a new session with a cookie
     """
     email = request.form.get('email')
     password = request.form.get('password')
