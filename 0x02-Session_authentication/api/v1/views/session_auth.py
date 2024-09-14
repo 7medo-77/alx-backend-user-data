@@ -16,10 +16,10 @@ def validate_login() -> str:
     email = request.form.get('email')
     password = request.form.get('password')
 
-    if not password:
-        return jsonify({"error": "password missing"}), 400
     if not email:
         return jsonify({"error": "email missing"}), 400
+    if not password:
+        return jsonify({"error": "password missing"}), 400
 
     user_instance = User.search({'email': email})[0]\
         if len(User.search({'email': email})) > 0\
