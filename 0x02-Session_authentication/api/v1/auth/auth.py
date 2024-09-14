@@ -42,7 +42,7 @@ class Auth:
         return None
 
     def session_cookie(self, request=None):
-        """ method to be overloaded by child class
+        """ returns the value of the cookie
         """
         if not request:
             return None
