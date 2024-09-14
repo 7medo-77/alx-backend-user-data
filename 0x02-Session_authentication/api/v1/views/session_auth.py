@@ -16,6 +16,7 @@ def validate_login() -> str:
     """
     email = request.form.get('email')
     password = request.form.get('password')
+
     if not password:
         return jsonify({"error": "password missing"}, 400)
     if not email:
