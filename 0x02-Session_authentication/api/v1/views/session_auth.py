@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Module of Index views
 """
-from flask import jsonify, request
+from flask import abort, jsonify, request
 from models.user import User
 from os import getenv
 from api.v1.views import app_views
@@ -37,3 +37,14 @@ def validate_login() -> str:
             session_id
             )
         return response_object
+
+@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def del_session():
+    """
+    Endpoint for deleting session
+    """
+    from api.v1.app import auth
+    if auth.destroy_session(request):
+        return jsonify({}), 200
+    else:
+        abort(404)
