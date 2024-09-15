@@ -38,7 +38,9 @@ def validate_login() -> str:
             )
         return response_object
 
-@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+
+@app_views.route('/auth_session/logout',
+                 methods=['DELETE'], strict_slashes=False)
 def del_session():
     """
     Endpoint for deleting session
