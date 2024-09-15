@@ -23,7 +23,7 @@ class SessionExpAuth(SessionAuth):
             and isinstance(int(getenv('SESSION_DURATION')), int)\
             else 0
 
-    def create_session(self, user_id: str=None) -> str:
+    def create_session(self, user_id: str = None) -> str:
         """
         Overload of the create_session() of SessionAuth
         Sets the value of self.user_id_by_session_id
@@ -45,7 +45,10 @@ class SessionExpAuth(SessionAuth):
         Returns user_id only if time limit of SESSION_DURATION is not exceeded
         """
         session_dict: Dict = self.user_id_by_session_id.get(session_id)
-        time_remaining = datetime.now() - (session_dict.get('created_at') + timedelta(seconds=self.SESSION_DURATION) )
+        time_remaining = datetime.now() - (
+            session_dict.get('created_at') +
+            timedelta(seconds=self.SESSION_DURATION)
+        )
 
         if not session_id\
                 or not self.user_id_by_session_id.get(session_id)\
@@ -53,5 +56,5 @@ class SessionExpAuth(SessionAuth):
             return None
 
         if time_remaining.seconds >= 0\
-                or self.SESSION_DURATION <= 0::
+                or self.SESSION_DURATION <= 0:
             return session_dict.get('user_id')
