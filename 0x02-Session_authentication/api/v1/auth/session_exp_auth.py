@@ -58,3 +58,5 @@ class SessionExpAuth(SessionAuth):
 
         if time_remaining.seconds >= datetime.now():
             return session_dict.get('user_id')
+        else:
+            return None
