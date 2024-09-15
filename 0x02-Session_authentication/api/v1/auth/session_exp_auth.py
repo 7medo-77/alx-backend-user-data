@@ -53,6 +53,8 @@ class SessionExpAuth(SessionAuth):
                 or not session_dict.get('created_at'):
             return None
 
-        if time_remaining.seconds >= datetime.now()\
-                or self.session_duration <= 0:
+        if self.session_duration <= 0:
+            return session_dict.get('user_id')
+
+        if time_remaining.seconds >= datetime.now():
             return session_dict.get('user_id')
