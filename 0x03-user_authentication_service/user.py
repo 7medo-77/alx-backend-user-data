@@ -22,5 +22,5 @@ class User(Base):
     reset_token = Column(String(250), nullable=True)
 
     def __init__(self, **kwargs):
-        for key, value in enumerate(kwargs):
+        for key, value in kwargs.items():
             self.key = value
