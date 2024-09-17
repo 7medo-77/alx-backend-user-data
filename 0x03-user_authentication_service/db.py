@@ -35,6 +35,5 @@ class DB:
     def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
         """Memoized session object
         """
-        User.email = email
-        User.hashed_password = hashed_password
+        User(email=email, hashed_password=hashed_password)
         return User
