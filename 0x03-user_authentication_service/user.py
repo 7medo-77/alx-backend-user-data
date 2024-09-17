@@ -9,6 +9,9 @@ from sqlalchemy import Column, Integer, String
 
 Base = declarative_base()
 class User(Base):
+    """
+    User class which maps to User table in database
+    """
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     email = Column(String, nullable=False)
