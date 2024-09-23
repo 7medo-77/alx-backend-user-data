@@ -5,6 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 from typing import TypeVar
 
 from user import Base, User
@@ -39,7 +41,15 @@ class DB:
         self._session.commit()
         return new_user
 
-        # new_user = User(email=email, hashed_password=hashed_password)
-        # self._session.add(new_user)
-        # self._session.commit()
-        # return new_user
+    def find_user_by(self, **kwargs) -> User:
+        """
+        Method to find the first result of user information
+        """
+        for key, value in kwargs.items():
+            try:
+                return self.__session.query(User).filter(User.key == value).first()[0]
+            except Exception as error:
+                if error is InvalidRequestError:
+                    raise InvalidRequestError
+                elif error is NoResultFound:
+                    raise NoResultFound
