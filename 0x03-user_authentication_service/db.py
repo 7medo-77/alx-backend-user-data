@@ -50,10 +50,9 @@ class DB:
                 raise InvalidRequestError
 
             resObject = self.__session.query(User)\
-                        .filter_by(**kwargs)\
-                        .first()
+                .filter_by(**kwargs)\
+                .first()
 
             if not resObject:
                 raise NoResultFound
             return resObject
-
