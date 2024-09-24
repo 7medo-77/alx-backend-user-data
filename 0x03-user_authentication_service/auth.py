@@ -9,4 +9,4 @@ def _hash_password(password):
     """
     Method which returns a salted hash of a password
     """
-    return bcrypt.hashpw(password, bcrypt.gensalt())
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
