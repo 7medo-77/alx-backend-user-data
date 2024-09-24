@@ -21,6 +21,7 @@ class Auth:
 
     def __init__(self):
         self._db = DB()
+        self._db._session
 
     def register_user(self, email: str, password: str) -> TypeVar('User'):
         """ Method which returns a user object """
