@@ -6,8 +6,14 @@ import bcrypt
 from typing import ByteString
 
 
-def _hash_password(password: str) -> ByteString:
-    """
-    Method which returns a salted hash of a password
-    """
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+def _hash_password(password: str) -> str:
+    """ Returns a salted hash of the input password """
+    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    return hashed
+
+
+# def _hash_password(password: str) -> ByteString:
+#     """
+#     Method which returns a salted hash of a password
+#     """
+#     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
