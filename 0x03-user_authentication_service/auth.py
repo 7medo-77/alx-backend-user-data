@@ -12,7 +12,7 @@ from typing import ByteString
 #     return hashed
 
 
-def _hash_password(password: str) -> ByteString:
+def _hash_password(password: str) -> str:
     """
     Method which returns a salted hash of a password
     """
