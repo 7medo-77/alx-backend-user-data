@@ -15,6 +15,7 @@ def _hash_password(password: str) -> str:
     """
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -24,11 +25,11 @@ class Auth:
 
     def register_user(self, email: str, password: str) -> TypeVar('User'):
         """ Method which returns a user object """
-        self._db._session
+        # self._db._session
         try:
             user_exists = self._db.find_user_by(email=email)
             if user_exists:
                 raise ValueError('User {} already exists'.format(email))
         except NoResultFound:
-            hashed_password = str(_hash_password(password))
+            hashed_password = _hash_password(password)
             return self._db.add_user(email, hashed_password)
