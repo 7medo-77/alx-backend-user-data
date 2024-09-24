@@ -3,9 +3,10 @@
 Module which defines authentication methods
 """
 import bcrypt
+from typing import ByteString
 
 
-def _hash_password(password):
+def _hash_password(password: str) -> ByteString:
     """
     Method which returns a salted hash of a password
     """
