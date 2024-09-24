@@ -46,10 +46,14 @@ class DB:
         Method to find the first result of user information
         """
         for key, value in kwargs.items():
-            try:
-                return self.__session.query(User).filter(User.key == value).first()[0]
-            except Exception as error:
-                if error is InvalidRequestError:
-                    raise InvalidRequestError
-                elif error is NoResultFound:
-                    raise NoResultFound
+            if key not in User.__table__.columns:
+                raise InvalidRequestError
+
+            resObject = self.__session.query(User)\
+                        .filter_by(**kwargs)\
+                        .first()
+
+            if not resObject:
+                raise NoResultFound
+            return resObject
+
