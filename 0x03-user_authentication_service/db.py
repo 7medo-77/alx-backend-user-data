@@ -48,11 +48,20 @@ class DB:
         for key, value in kwargs.items():
             if key not in User.__table__.columns:
                 raise InvalidRequestError
-
             resObject = self.__session.query(User)\
                 .filter_by(**kwargs)\
                 .first()
-
             if not resObject:
                 raise NoResultFound
             return resObject
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        Method to find the first result of user information
+        """
+        userResult = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if key not in userResult.__table__.columns.keys():
+                raise ValueError
+            else:
+                userResult.key = value
