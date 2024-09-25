@@ -18,7 +18,7 @@ def _hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
 
-def _generate_uuid(self) -> str:
+def _generate_uuid() -> str:
     """ Method which validates credentials for login"""
     return str(uuid4())
 
