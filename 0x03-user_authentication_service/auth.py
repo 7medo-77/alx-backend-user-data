@@ -52,6 +52,7 @@ class Auth:
         """ Method which validates credentials for login"""
         try:
             user_result = self._db.find_user_by(email=email)
-            return bcrypt.checkpw(password.encode(), user_result.hashed_password)
+            return bcrypt.checkpw(password.encode(),
+                                  user_result.hashed_password)
         except NoResultFound:
             return False
