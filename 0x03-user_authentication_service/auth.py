@@ -62,3 +62,13 @@ class Auth:
                                   user_result.hashed_password)
         except NoResultFound:
             return False
+
+    def create_session(self, email: str) -> str:
+        """ Method which validates credentials for login"""
+        try:
+            user_result = self._db.find_user_by(email=email)
+            new_session = _generate_uuid()
+            self._db.update_user(user_result.id, session_id=new_session)
+            return new_session
+        except NoResultFound:
+            return None
