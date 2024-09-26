@@ -64,4 +64,5 @@ class DB:
             if key not in userResult.__table__.columns.keys():
                 raise ValueError
             else:
-                userResult.key = value
+                # userResult.key = value
+                setattr(userResult, key, value)
