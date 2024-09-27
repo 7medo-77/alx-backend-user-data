@@ -119,17 +119,17 @@ Main file
 # print(auth.valid_login("unknown@email", password))
 # print(_generate_uuid())
 
-#!/usr/bin/env python3
-"""
-Main file
-"""
-from auth import Auth
+# """
+# Main file
+# """
+# from auth import Auth
+#
+# email = 'bob@bob.com'
+# password = 'MyPwdOfBob'
+# auth = Auth()
+#
+# auth.register_user(email, password)
+#
+# print(auth.create_session(email))
+# print(auth.create_session("unknown@email.com"))
 
-email = 'bob@bob.com'
-password = 'MyPwdOfBob'
-auth = Auth()
-
-auth.register_user(email, password)
-
-print(auth.create_session(email))
-print(auth.create_session("unknown@email.com"))
