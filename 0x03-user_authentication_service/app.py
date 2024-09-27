@@ -90,7 +90,7 @@ def profile_login():
         abort(403)
 
 
-@app.route('/reset_password', methods=['GET'], strict_slashes=False)
+@app.route('/reset_password', methods=['POST'], strict_slashes=False)
 def get_reset_password_token():
     """
     Function to create a new reset_password associated
@@ -98,6 +98,7 @@ def get_reset_password_token():
     """
     email = request.form.get('email')
     new_token = AUTH.get_reset_password_token(email)
+
     if email and new_token:
         return json.jsonify({
             'email': email,
