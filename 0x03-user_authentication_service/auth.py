@@ -106,4 +106,3 @@ class Auth:
         # self._db.update_user(user_result.id, reset_token=None)
         setattr(user_result, 'reset_token', None)
         return None
-
