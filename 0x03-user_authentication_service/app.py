@@ -52,11 +52,12 @@ def login():
             'email': email,
             'message': 'logged in',
         }
-        response = Response(response_json, status=200)
+        response = json.jsonify(response_json)
         response.set_cookie('session_id', user_session_id)
-        return json.jsonify(response_json)
+        return response
     else:
         abort(401)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='5000', debug=True)
