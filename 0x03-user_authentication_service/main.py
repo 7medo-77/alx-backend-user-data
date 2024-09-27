@@ -133,3 +133,23 @@ Main file
 # print(auth.create_session(email))
 # print(auth.create_session("unknown@email.com"))
 
+from app import app, AUTH
+
+user = AUTH.register_user(
+    'test@test.com',
+    'test'
+)
+
+reset_token = 'bad value'
+
+try:
+    AUTH.update_password(
+    reset_token,
+    'test'
+)
+    print("Did not raise ValueError")
+    exit(0)
+except ValueError:
+    pass
+
+print("OK", end='')

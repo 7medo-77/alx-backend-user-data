@@ -90,7 +90,7 @@ class Auth:
         setattr(user_result, 'reset_token', new_token)
         return new_token
 
-    def reset_password(self, reset_token: str, password: str) -> None:
+    def update_password(self, reset_token: str, password: str) -> None:
         """
         Method to reset password, given the input of a reset_token
         associated with a user
