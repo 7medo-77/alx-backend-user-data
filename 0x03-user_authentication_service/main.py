@@ -1,177 +1,134 @@
 #!/usr/bin/env python3
-"""
-Main file
-"""
-# from user import User
-#
-# print(User.__tablename__)
-#
-# for column in User.__table__.columns:
-    # print("{}: {}".format(column, column.type))
+""" End-to-end integration test"""
 
-# from db import DB
-# from user import User
-#
-# my_db = DB()
-#
-# user_1 = my_db.add_user("test@test.com", "SuperHashedPwd")
-# print(user_1.id)
-#
-# user_2 = my_db.add_user("test1@test.com", "SuperHashedPwd1")
-# print(user_2.id)
+import requests
 
-# from db import DB
-# from user import User
-#
-# from sqlalchemy.exc import InvalidRequestError
-# from sqlalchemy.orm.exc import NoResultFound
-#
-#
-# my_db = DB()
-#
-# user = my_db.add_user("test@test.com", "PwdHashed")
-# print(user.id)
-#
-# find_user = my_db.find_user_by(email="test@test.com")
-# print(find_user)
-# print(find_user.id)
-#
-# try:
-#     find_user = my_db.find_user_by(email="test2@test.com")
-#     print(find_user.id)
-# except NoResultFound:
-#     print("Not found")
-#
-# try:
-#     find_user = my_db.find_user_by(no_email="test@test.com")
-#     print(find_user.id)
-# except InvalidRequestError:
-#     print("Invalid")
+BASE_URL = 'http://localhost:5000'
+EMAIL = "guillaume@holberton.io"
+PASSWD = "b4l0u"
+NEW_PASSWD = "t4rt1fl3tt3"
 
-# """
-# Main file
-# """
-# from db import DB
-# from user import User
-#
-# from sqlalchemy.exc import InvalidRequestError
-# from sqlalchemy.orm.exc import NoResultFound
-#
-#
-# my_db = DB()
-#
-# email = 'test@test.com'
-# hashed_password = "hashedPwd"
-#
-# user = my_db.add_user(email, hashed_password)
-# print(user.id)
-#
-# try:
-#     my_db.update_user(user.id, hashed_password='NewPwd')
-#     print("Password updated")
-# except ValueError:
-#     print("Error")
 
-# """
-# Main file
-# """
-# from auth import _hash_password
-#
-# print(_hash_password("Hello Holberton"))
+def register_user(email: str, password: str) -> None:
+    """ Test for validating user registration """
+    data = {
+        "email": email,
+        "password": password
+    }
+    response = requests.post(f'{BASE_URL}/users', data=data)
 
-# """
-# Main file
-# """
-# from auth import Auth
-#
-# email = 'me@me.com'
-# password = 'mySecuredPwd'
-#
-# auth = Auth()
-#
-# try:
-#     user = auth.register_user(email, password)
-#     print("successfully created a new user!")
-# except ValueError as err:
-#     print("could not create a new user: {}".format(err))
-#
-# try:
-#     user = auth.register_user(email, password)
-#     print("successfully created a new user!")
-# except ValueError as err:
-#     print("could not create a new user: {}".format(err))        
+    msg = {"email": email, "message": "user created"}
 
-# """
-# Main file
-# """
-# from auth import Auth, _generate_uuid
-#
-# email = 'bob@bob.com'
-# password = 'MyPwdOfBob'
-# auth = Auth()
-#
-# auth.register_user(email, password)
-#
-# print(auth.valid_login(email, password))
-#
-# print(auth.valid_login(email, "WrongPwd"))
-#
-# print(auth.valid_login("unknown@email", password))
-# print(_generate_uuid())
+    assert response.status_code == 200
+    assert response.json() == msg
 
-# """
-# Main file
-# """
-# from auth import Auth
-#
-# email = 'bob@bob.com'
-# password = 'MyPwdOfBob'
-# auth = Auth()
-#
-# auth.register_user(email, password)
-#
-# print(auth.create_session(email))
-# print(auth.create_session("unknown@email.com"))
 
-# from app import app, AUTH
-#
-# user = AUTH.register_user(
-#     'test@test.com',
-#     'test'
-# )
-#
-# reset_token = 'bad value'
-#
-# try:
-#     AUTH.update_password(
-#     reset_token,
-#     'test'
-# )
-#     print("Did not raise ValueError")
-#     exit(0)
-# except ValueError:
-#     pass
-#
-# print("OK", end='')
+def log_in_wrong_password(email: str, password: str) -> None:
+    """ Test for validating log in with wrong password """
+    data = {
+        "email": email,
+        "password": password
+    }
+    response = requests.post(f'{BASE_URL}/sessions', data=data)
 
-from app import app, AUTH
+    assert response.status_code == 401
 
-user = AUTH.register_user(
-    'test@test.com',
-    'test'
-)
 
-reset_token = AUTH.get_reset_password_token(
-    'test@test.com'
-)
+def log_in(email: str, password: str) -> str:
+    """ Test for validating succesful log in """
+    data = {
+        "email": email,
+        "password": password
+    }
+    response = requests.post(f'{BASE_URL}/sessions', data=data)
 
-AUTH.update_password(
-    reset_token,
-    'test'
-)
+    msg = {"email": email, "message": "logged in"}
 
-if user.reset_token is not None:
-    print("Reset token not set to none after updating password. Password update did not work correctly.")
-    exit(0)
+    assert response.status_code == 200
+    assert response.json() == msg
 
-print("OK", end='')
+    session_id = response.cookies.get("session_id")
+
+    return session_id
+
+
+def profile_unlogged() -> None:
+    """ Test for validating profile request without log in """
+    cookies = {
+        "session_id": ""
+    }
+    response = requests.get(f'{BASE_URL}/profile', cookies=cookies)
+
+    assert response.status_code == 403
+
+
+def profile_logged(session_id: str) -> None:
+    """ Test for validating profile request logged in """
+    cookies = {
+        "session_id": session_id
+    }
+    response = requests.get(f'{BASE_URL}/profile', cookies=cookies)
+
+    msg = {"email": EMAIL}
+
+    assert response.status_code == 200
+    assert response.json() == msg
+
+
+def log_out(session_id: str) -> None:
+    """ Test for validating log out endpoint """
+    cookies = {
+        "session_id": session_id
+    }
+    response = requests.delete(f'{BASE_URL}/sessions', cookies=cookies)
+
+    msg = {"message": "Bienvenue"}
+
+    assert response.status_code == 200
+    assert response.json() == msg
+
+
+def reset_password_token(email: str) -> str:
+    """ Test for validating password reset token """
+    data = {
+        "email": email
+    }
+    response = requests.post(f'{BASE_URL}/reset_password', data=data)
+
+    assert response.status_code == 200
+
+    reset_token = response.json().get("reset_token")
+
+    msg = {"email": email, "reset_token": reset_token}
+
+    assert response.json() == msg
+
+    return reset_token
+
+
+def update_password(email: str, reset_token: str, new_password: str) -> None:
+    """ Test for validating password reset (update) """
+    data = {
+        "email": email,
+        "reset_token": reset_token,
+        "new_password": new_password
+    }
+    response = requests.put(f'{BASE_URL}/reset_password', data=data)
+
+    msg = {"email": email, "message": "Password updated"}
+
+    assert response.status_code == 200
+    assert response.json() == msg
+
+
+if __name__ == "__main__":
+
+    register_user(EMAIL, PASSWD)
+    log_in_wrong_password(EMAIL, NEW_PASSWD)
+    profile_unlogged()
+    session_id = log_in(EMAIL, PASSWD)
+    profile_logged(session_id)
+    log_out(session_id)
+    reset_token = reset_password_token(EMAIL)
+    update_password(EMAIL, reset_token, NEW_PASSWD)
+    log_in(EMAIL, NEW_PASSWD)
