@@ -70,7 +70,8 @@ class Auth:
             return None
 
     def destroy_session(self, user_id: str) -> None:
-        """Method which retrieves a User from session_id"""
+        """Method which deletes the session_id
+        attribute of the result user object"""
         try:
             result_user = self._db.find_user_by(id=user_id)
             setattr(result_user, 'session_id', None)
