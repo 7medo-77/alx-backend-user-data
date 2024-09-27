@@ -89,3 +89,17 @@ class Auth:
         new_token = str(uuid4())
         setattr(user_result, 'reset_token', new_token)
         return new_token
+
+    def reset_password(self, reset_token: str, password: str) -> None:
+        """
+        Method to reset password, given the input of a reset_token
+        associated with a user
+        Returns None
+        """
+        try:
+            user_result = self._db.find_user_by(reset_token=reset_token)
+            hashed_password = _hash_password(password)
+            self._db.update_user(user_result.id, hashed_password=hashed_password)
+        except (NoResultFound, InvalidRequestError):
+            raise ValueError
+
