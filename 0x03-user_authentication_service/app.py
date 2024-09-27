@@ -67,11 +67,12 @@ def logout():
     """
     session_id = request.cookies.get('session_id')
     user_result = AUTH.get_user_from_session_id(session_id)
+
     if user_result:
         AUTH.destroy_session(user_result.id)
         return redirect(url_for('simple_return'))
     else:
-        return 403
+        abort(403)
 
 
 if __name__ == "__main__":

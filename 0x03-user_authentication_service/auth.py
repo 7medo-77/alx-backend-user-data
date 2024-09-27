@@ -65,9 +65,9 @@ class Auth:
         """Method which retrieves a User from session_id"""
         try:
             result_user = self._db.find_user_by(session_id=session_id)
-            return result_user
-        except NoResultFound:
+        except (NoResultFound, InvalidRequestError):
             return None
+        return result_user
 
     def destroy_session(self, user_id: str) -> None:
         """Method which deletes the session_id
