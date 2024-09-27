@@ -97,7 +97,10 @@ def get_reset_password_token():
     with a currently existing user
     """
     email = request.form.get('email')
-    new_token = AUTH.get_reset_password_token(email)
+    try:
+        new_token = AUTH.get_reset_password_token(email)
+    except ValueError:
+        abort(403)
 
     if email and new_token:
         return json.jsonify({
