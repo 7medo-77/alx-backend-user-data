@@ -31,19 +31,6 @@ class Auth:
         self._db = DB()
         self._db._session
 
-    # def register_user(self, email: str, password: str) -> User:
-    #     """ Registers a user in the database
-    #     Returns: User Object
-    #     """
-    #     try:
-    #         user = self._db.find_user_by(email=email)
-    #     except NoResultFound:
-    #         hashed_password = _hash_password(password)
-    #         user = self._db.add_user(email, hashed_password)
-    #         return user
-    #     else:
-    #         raise ValueError(f'User {email} already exists')
-
     def register_user(self, email: str, password: str) -> User:
         """ Method which returns a user object """
         try:
@@ -64,7 +51,8 @@ class Auth:
             return False
 
     def create_session(self, email: str) -> str:
-        """ Method which validates credentials for login"""
+        """Method which creates a session_ID
+        and adds it to a cookie"""
         try:
             user_result = self._db.find_user_by(email=email)
         except NoResultFound:
@@ -72,3 +60,11 @@ class Auth:
         new_session = _generate_uuid()
         self._db.update_user(user_result.id, session_id=new_session)
         return new_session
+
+    def get_user_from_session_id(self, session_id: str) -> User:
+        """Method which retrieves a User from session_id"""
+        try:
+            result_user = self._db.find_user_by(session_id=session_id)
+            return result_user
+        except NoResultFound:
+            return None
