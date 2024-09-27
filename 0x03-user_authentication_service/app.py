@@ -65,13 +65,13 @@ def logout():
     Logout method for the DELETE HTTP Method
     Deletes session_id cookie and removes the session
     """
-    session_id = request.cookies.get('session_id')
+    session_id = request.cookies.get('session_id', None)
     user_result = AUTH.get_user_from_session_id(session_id)
 
     if user_result:
         AUTH.destroy_session(user_result.id)
         return redirect(url_for('simple_return'))
-    elif not user_result or not session_id:
+    else:
         abort(403)
 
 
