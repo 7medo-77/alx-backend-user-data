@@ -90,5 +90,22 @@ def profile_login():
         abort(403)
 
 
+@app.route('/reset_password', methods=['GET'], strict_slashes=False)
+def get_reset_password_token():
+    """
+    Function to create a new reset_password associated
+    with a currently existing user
+    """
+    email = request.form.get('email')
+    new_token = AUTH.get_reset_password_token(email)
+    if email and new_token:
+        return json.jsonify({
+            'email': email,
+            'reset_token': new_token,
+        })
+    else:
+        abort(403)
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='5000', debug=True)
