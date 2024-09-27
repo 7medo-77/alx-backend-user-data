@@ -116,24 +116,11 @@ def update_password():
     Function to update user password using the PUT HTTP Method
     """
     email = request.form.get('email')
-    password = request.form.get('new_password')
+    password = request.form.get('password')
     reset_token = request.form.get('reset_token')
-
-    if not email\
-        or not password\
-        or not reset_token:
+    if not email or not password or not reset_token:
         abort(403)
 
-    try:
-        AUTH.update_password(reset_token, password)
-        AUTH.get_reset_password_token(email)
-    except ValueError:
-        abort(403)
-
-    return json.jsonify({
-        'email': email,
-        'message': 'Password updated',
-    })
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='5000', debug=True)
